@@ -9,12 +9,25 @@ class GameDisplay extends StatefulWidget {
   GameDisplay(this.game);
 
   String getDisplay(Point p) {
-    if (!game.board.boardMap[p].isRevealed) return "";
+    var sq = game.board.boardMap[p];
+    if (!sq.isRevealed) {
+      if (sq.isFlagged) {
+        return "?";
+      } else {
+        return "#";
+      }
+    }
 
-    if (game.board.boardMap[p].isMine) {
+    if (sq.isMine) {
       return "*";
     } else {
-      return game.board.getNeighborMines(p).toString();
+      int mineNum = game.board.getNeighborMines(p);
+
+      if (mineNum == 0) {
+        return "";
+      } else {
+        return mineNum.toString();
+      }
     }
   }
 
@@ -24,7 +37,13 @@ class GameDisplay extends StatefulWidget {
 
 class _GameDisplayState extends State<GameDisplay> {
   void tapSquare(int x, int y) {
-    setState(() => widget.game.reveal(Point(x, y)));
+    setState(() => widget.game.clickHandle(Point(x, y)));
+  }
+
+  void flag(int x, int y) {
+    setState(() => {
+      widget.game.board.boardMap[Point(x, y)].isFlagged ^= true
+    });
   }
 
   Widget _generateRow(int y) {
@@ -37,10 +56,11 @@ class _GameDisplayState extends State<GameDisplay> {
               child: Text(widget.getDisplay(Point(x, y))),
               fit: BoxFit.contain
             ),
-            color: Colors.red
+            color: Colors.grey
           ),
 
           onTap: () => tapSquare(x, y),
+          onLongPress: () => flag(x, y),
           behavior: HitTestBehavior.translucent
         )
       )

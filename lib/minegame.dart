@@ -25,18 +25,7 @@ class MineGame {
 
   // returns success
   bool reveal(Point p) {
-    if (loss) return false;
-
-    if (!minesPlaced) {
-      placeMines(p);
-      minesPlaced = true;
-    }
     if (!board.reveal(p)) return false;
-
-    if (board.boardMap[p].isMine) {
-      loss = true;
-      return true;
-    }
 
     if (board.getNeighborMines(p) == 0) {
       for (Point np in board.getNeighbors(p)) {
@@ -44,6 +33,23 @@ class MineGame {
       }
     }
 
+    return true;
+  }
+
+  bool clickHandle(Point p) {
+    var sq = board.boardMap[p];
+
+    if (loss || sq.isFlagged) return false;
+
+    if (!minesPlaced) {
+      placeMines(p);
+      minesPlaced = true;
+    }
+    if (!reveal(p)) return false;
+
+    if (sq.isMine) {
+      loss = true;
+    }
     return true;
   }
 }

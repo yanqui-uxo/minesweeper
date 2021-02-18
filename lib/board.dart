@@ -3,7 +3,7 @@ import "dart:math";
 class Square {
   bool isMine;
   bool isRevealed = false;
-  bool isFlagged;
+  bool isFlagged = false;
 
   Square(this.isMine);
 }
