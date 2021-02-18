@@ -1,7 +1,7 @@
 import "dart:math";
 import "board.dart";
 
-class MineGame{
+class MineGame {
   final Board board;
   bool loss = false;
   bool minesPlaced = false;
