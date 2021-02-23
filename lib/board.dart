@@ -16,6 +16,10 @@ class Board {
   final Map<Point, Square> boardMap = {};
 
   Board(this.width, this.height, this.mines) {
+    initBoardMap();
+  }
+
+  void initBoardMap() {
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
         boardMap[Point(x, y)] = Square(false);

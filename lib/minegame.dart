@@ -1,19 +1,24 @@
 import "dart:math";
 import "board.dart";
+import "gameconfig.dart";
+
+enum GameState {
+  play,
+  win,
+  loss
+}
 
 class MineGame {
   final Board board;
-  bool loss = false;
+  GameState state = GameState.play;
   bool minesPlaced = false;
 
   MineGame(int width, int height, int mines) : board = Board(width, height, mines);
+  MineGame.config(GameConfig conf) : this(conf.width, conf.height, conf.mines);
 
   void placeMines(Point safePoint) {
-    List<Point> points = [];
+    List<Point> points = board.boardMap.keys.toList();
 
-    for (var k in board.boardMap.keys) {
-      points.add(k);
-    }
     points.remove(safePoint);
 
     points.shuffle();
@@ -27,7 +32,7 @@ class MineGame {
   bool reveal(Point p) {
     if (!board.reveal(p)) return false;
 
-    if (board.getNeighborMines(p) == 0) {
+    if (!board.boardMap[p].isMine && board.getNeighborMines(p) == 0) {
       for (Point np in board.getNeighbors(p)) {
         reveal(np);
       }
@@ -39,7 +44,7 @@ class MineGame {
   bool clickHandle(Point p) {
     var sq = board.boardMap[p];
 
-    if (loss || sq.isFlagged) return false;
+    if (state != GameState.play || sq.isFlagged) return false;
 
     if (!minesPlaced) {
       placeMines(p);
@@ -48,7 +53,7 @@ class MineGame {
     if (!reveal(p)) return false;
 
     if (sq.isMine) {
-      loss = true;
+      state = GameState.loss;
     }
     return true;
   }
