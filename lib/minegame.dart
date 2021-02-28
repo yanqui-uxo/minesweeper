@@ -1,6 +1,5 @@
 import "dart:math";
 import "board.dart";
-import "gameconfig.dart";
 
 enum GameState {
   play,
@@ -8,39 +7,35 @@ enum GameState {
   loss
 }
 
-class MineGame {
-  final Board board;
+abstract class MineGame {
+  Board board;
   GameState state = GameState.play;
   bool minesPlaced = false;
 
-  MineGame(int width, int height, int mines) : board = Board(width, height, mines);
-  MineGame.config(GameConfig conf) : this(conf.width, conf.height, conf.mines);
-
-  void placeMines(Point safePoint) {
-    List<Point> points = board.boardMap.keys.toList();
-
-    points.remove(safePoint);
-
-    points.shuffle();
-
-    for (Point p in points.take(board.mines)) {
-      board.boardMap[p].isMine = true;
-    }
-  }
+  void placeMines(Point safePoint);
 
   // returns success
   bool reveal(Point p) {
-    if (!board.reveal(p)) return false;
+    Square s = board.boardMap[p];
 
-    if (!board.boardMap[p].isMine && board.getNeighborMines(p) == 0) {
-      for (Point np in board.getNeighbors(p)) {
-        reveal(np);
+    if (!s.isRevealed) {
+      s.isRevealed = true;
+
+      if (!s.isMine && board.getNeighborMines(p) == 0) {
+        for (Point np in board.getNeighbors(p)) {
+          reveal(np);
+        }
       }
+
+      return true;
     }
 
-    return true;
+    return false;
   }
 
+  void flag(Point p);
+
+  // returns success
   bool clickHandle(Point p) {
     var sq = board.boardMap[p];
 
@@ -54,7 +49,18 @@ class MineGame {
 
     if (sq.isMine) {
       state = GameState.loss;
+      return true;
     }
+
+    bool win = true;
+    for (var s in board.boardMap.values) {
+      if (!s.isMine && !s.isRevealed) {
+        win = false;
+      }
+    }
+
+    if (win) state = GameState.win;
+
     return true;
   }
 }

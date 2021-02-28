@@ -1,8 +1,7 @@
 import "package:flutter/material.dart";
 import "gameconfig.dart";
-import "minegame.dart";
-import "gamedisplay.dart";
-import "gamestatedisplay.dart";
+import 'singleminegame.dart';
+import 'singleminegamedisplay.dart';
 
 class MineApp extends StatefulWidget {
   static List<GameConfig> configs = [
@@ -16,12 +15,6 @@ class MineApp extends StatefulWidget {
 
 class _MineAppState extends State<MineApp> {
   GameConfig config = MineApp.configs[0];
-  MineGame game;
-  GameStateDisplay stateDisplay;
-
-  _MineAppState() {
-    game = MineGame.config(config);
-  }
   
   void restart(GameConfig c) {
     setState(() {
@@ -43,7 +36,7 @@ class _MineAppState extends State<MineApp> {
         )
       ),
 
-      body: GameDisplay(MineGame.config(config))
+      body: SingleMineGameDisplay(SingleMineGame.config(config))
     );
   }
 }

@@ -2,12 +2,13 @@ import "package:flutter/material.dart";
 import "minegame.dart";
 
 class GameStateDisplay extends StatelessWidget {
-  final GameState state;
+  final MineGame game;
 
-  GameStateDisplay(this.state);
+  GameStateDisplay(this.game);
 
   Widget build(BuildContext context) {
-    switch (state) {
+    print("building");
+    switch (game.state) {
       case GameState.play: return Text("Playing"); break;
       case GameState.loss: return Text("Loss!"); break;
       case GameState.win: return Text("Victory!"); break;
