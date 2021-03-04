@@ -60,12 +60,7 @@ abstract class MineGame {
       return true;
     }
 
-    bool win = true;
-    for (var s in board.boardMap.values) {
-      if (!s.isMine && !s.isRevealed) {
-        win = false;
-      }
-    }
+    bool win = board.boardMap.values.every((s) => s.isMine || s.isRevealed);
 
     if (win) state = GameState.win;
 

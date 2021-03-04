@@ -4,5 +4,5 @@ import 'package:mine/variant/mine_game_variant.dart';
 
 class SingleMineGameVariant implements MineGameVariant<SingleMineGame> {
   SingleMineGame makeGame(GameConfig conf) => SingleMineGame(conf);
-  String toString() => "Single mines only per square";
+  String toString() => "Single mine maximum per square";
 }
