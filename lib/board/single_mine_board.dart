@@ -1,6 +1,6 @@
-import "dart:math";
+import 'dart:math';
 
-import "board.dart";
+import 'board.dart';
 
 class SingleMineSquare extends Square {
   bool isMine;

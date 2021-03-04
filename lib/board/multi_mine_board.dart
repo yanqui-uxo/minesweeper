@@ -1,4 +1,4 @@
-import "board.dart";
+import 'board.dart';
 
 class MultiMineSquare extends Square {
   int mines;

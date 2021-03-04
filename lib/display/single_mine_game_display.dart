@@ -1,8 +1,8 @@
-import "dart:math";
-import "package:flutter/material.dart";
-import "gamedisplay.dart";
-import 'gamestatedisplay.dart';
-import 'singleminegame.dart';
+import 'dart:math';
+import 'package:flutter/material.dart';
+import 'game_display.dart';
+import 'game_state_display.dart';
+import 'package:mine/game/single_mine_game.dart';
 
 class SingleMineGameDisplay extends GameDisplay {
   final SingleMineGame game;
@@ -15,7 +15,7 @@ class SingleMineGameDisplay extends GameDisplay {
       if (sq.isFlagged) {
         return Icon(Icons.flag, color: Colors.red[900]);
       } else {
-        return Text("#");
+        return Text('#');
       }
     }
 
@@ -25,31 +25,10 @@ class SingleMineGameDisplay extends GameDisplay {
       int mineNum = game.board.getNeighborMines(p);
 
       if (mineNum == 0) {
-        return Text("");
+        return Container();
       } else {
-        Color textColor;
-        switch (mineNum) {
-          case 1: textColor = Colors.blue[700]; break;
-          case 2: textColor = Colors.green[700]; break;
-          case 3: textColor = Colors.red[700]; break;
-          case 4: textColor = Colors.blue[900]; break;
-          case 5: textColor = Colors.red[900]; break;
-          case 6: textColor = Colors.teal[700]; break;
-          case 7: textColor = Colors.black; break;
-          case 8: textColor = Colors.grey[700]; break;
-        }
-        return Text(mineNum.toString(), style: TextStyle(color: textColor));
+        return Text(mineNum.toString(), style: TextStyle(color: numberColor(mineNum)));
       }
-    }
-  }
-
-  Color getBackgroundColor(Point p) {
-    var sq = game.board.boardMap[p];
-
-    if (sq.isRevealed && sq.isMine) {
-      return Colors.red;
-    } else {
-      return Colors.grey[300];
     }
   }
 

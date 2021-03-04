@@ -1,5 +1,5 @@
-import "dart:math";
-import "board.dart";
+import 'dart:math';
+import 'package:mine/board/board.dart';
 
 enum GameState {
   play,
@@ -14,6 +14,14 @@ abstract class MineGame {
 
   void placeMines(Point safePoint);
 
+  List<Point> pickRandomPoints(int n, Point safePoint) {
+    List<Point> points = board.boardMap.keys.toList();
+    points.remove(safePoint);
+    points.shuffle();
+
+    return points.take(n).toList();
+  }
+  
   // returns success
   bool reveal(Point p) {
     Square s = board.boardMap[p];

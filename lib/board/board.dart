@@ -1,4 +1,4 @@
-import "dart:math";
+import 'dart:math';
 
 abstract class Square {
   bool isRevealed = false;
@@ -9,8 +9,9 @@ abstract class Square {
 abstract class Board {
   int width;
   int height;
+  int mines;
 
-  final Map<Point, Square> boardMap = {};
+  Map<Point, Square> boardMap = {};
 
   List<Point> getNeighbors(Point p) {
     List<Point> neighbors = [];

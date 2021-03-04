@@ -1,5 +1,5 @@
-import "package:flutter/material.dart";
-import "mineapp.dart";
+import 'package:flutter/material.dart';
+import 'package:mine/app/mine_app.dart';
 
 void main() {
   runApp(MyApp());

@@ -8,6 +8,6 @@ class GameConfig {
 
   @override
   String toString() {
-    return "$title (${width}x$height, $mines mines)";
+    return '$title (${width}x$height, $mines mines)';
   }
 }
