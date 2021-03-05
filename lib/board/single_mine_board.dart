@@ -29,13 +29,13 @@ class SingleMineBoard extends Board {
   }
 
   void flag(Point p) {
-    boardMap[p].isFlagged ^= true;
+    boardMap[p]!.isFlagged ^= true;
   }
 
   int getNeighborMines(Point p) {
     int mineCount = 0;
     for (Point np in getNeighbors(p)) {
-      if (boardMap[np].isMine) {
+      if (boardMap[np]!.isMine) {
         mineCount++;
       }
     }

@@ -7,9 +7,9 @@ abstract class Square {
 }
 
 abstract class Board {
-  int width;
-  int height;
-  int mines;
+  late int width;
+  late int height;
+  late int mines;
 
   Map<Point, Square> boardMap = {};
 
@@ -35,8 +35,8 @@ abstract class Board {
 
   // returns success
   bool reveal(Point p) {
-    if (!boardMap[p].isRevealed) {
-      boardMap[p].isRevealed = true;
+    if (!boardMap[p]!.isRevealed) {
+      boardMap[p]!.isRevealed = true;
       return true;
     } else {
       return false;

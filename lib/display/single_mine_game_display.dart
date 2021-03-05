@@ -10,7 +10,7 @@ class SingleMineGameDisplay extends GameDisplay {
   SingleMineGameDisplay(this.game) : super(game);
 
   Widget getDisplay(Point p) {
-    var sq = game.board.boardMap[p];
+    var sq = game.board.boardMap[p]!;
     if (!sq.isRevealed) {
       if (sq.isFlagged) {
         return Icon(Icons.flag, color: Colors.red[900]);

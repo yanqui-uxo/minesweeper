@@ -9,10 +9,9 @@ class GameStateDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     print('building');
     switch (game.state) {
-      case GameState.play: return Text('Playing'); break;
-      case GameState.loss: return Text('Loss!'); break;
-      case GameState.win: return Text('Victory!'); break;
+      case GameState.play: return Text('Playing');
+      case GameState.loss: return Text('Loss!');
+      case GameState.win: return Text('Victory!');
     }
-    return null;
   }
 }

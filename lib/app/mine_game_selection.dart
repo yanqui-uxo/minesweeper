@@ -12,11 +12,11 @@ class MineGameSelection extends StatefulWidget {
 }
 
 class _MineGameSelectionState extends State<MineGameSelection> {
-  GameConfig currentSelectedConfig;
-  MineGameVariant currentSelectedVariant;
+  late GameConfig currentSelectedConfig;
+  late MineGameVariant currentSelectedVariant;
 
-  List configTiles;
-  List variantTiles;
+  late List<StatelessWidget> configTiles;
+  late List<StatelessWidget> variantTiles;
 
   void setCurrentConfig(GameConfig c) {
     currentSelectedConfig = c;
@@ -26,22 +26,27 @@ class _MineGameSelectionState extends State<MineGameSelection> {
     currentSelectedVariant = v;
   }
 
-  List<RadioListTile<T>> generateListTiles<T>(List<T> things, T groupValue, Function f) =>
-    things.map((t) => RadioListTile(
-      title: Text(t.toString()),
-      value: t,
-      groupValue: groupValue,
-      onChanged: (t) => Function.apply(f, [t])
-    ));
-
   void initState() {
     super.initState();
 
     currentSelectedConfig = widget.configs[0];
     currentSelectedVariant = widget.variants[0];
 
-    configTiles = generateListTiles(widget.configs, currentSelectedConfig, setCurrentConfig);
-    variantTiles = generateListTiles(widget.variants, currentSelectedVariant, setCurrentVariant);
+    // yes, i know, repeated code
+    // but i think if i refactored this it would be uglier
+    configTiles = widget.configs.map((c) => RadioListTile<GameConfig>(
+      title: Text(c.toString()),
+      value: c,
+      groupValue: currentSelectedConfig,
+      onChanged: (c) => setState(() { currentSelectedConfig = c!; })
+    )).toList();
+
+    variantTiles = widget.variants.map((v) => RadioListTile<MineGameVariant>(
+      title: Text(v.toString()),
+      value: v,
+      groupValue: currentSelectedVariant,
+      onChanged: (v) => setState(() { currentSelectedVariant = v!; })
+    )).toList();
   }
 
   Widget build(BuildContext context) => ListView(

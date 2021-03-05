@@ -7,8 +7,8 @@ enum GameState {
   loss
 }
 
-abstract class MineGame {
-  Board board;
+abstract class MineGame<T extends Board> {
+  abstract T board;
   GameState state = GameState.play;
   bool minesPlaced = false;
 
@@ -24,7 +24,7 @@ abstract class MineGame {
   
   // returns success
   bool reveal(Point p) {
-    Square s = board.boardMap[p];
+    Square s = board.boardMap[p]!;
 
     if (!s.isRevealed) {
       s.isRevealed = true;
@@ -45,7 +45,7 @@ abstract class MineGame {
 
   // returns success
   bool clickHandle(Point p) {
-    var sq = board.boardMap[p];
+    var sq = board.boardMap[p]!;
 
     if (state != GameState.play || sq.isFlagged) return false;
 

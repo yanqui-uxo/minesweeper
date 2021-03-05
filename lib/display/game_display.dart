@@ -9,12 +9,12 @@ abstract class GameDisplay extends StatefulWidget {
   Widget getDisplay(Point p);
 
   Color defaultBackgroundColor(Point p) {
-    var sq = game.board.boardMap[p];
+    var sq = game.board.boardMap[p]!;
 
     if (sq.isRevealed && sq.isMine) {
       return Colors.red;
     } else {
-      return Colors.grey[300];
+      return Colors.grey[300]!;
     }
   }
 
@@ -24,14 +24,14 @@ abstract class GameDisplay extends StatefulWidget {
 
   Color numberColor(int num) {
     switch (num) {
-      case 1: return Colors.blue[700];
-      case 2: return Colors.green[700];
-      case 3: return Colors.red[700];
-      case 4: return Colors.blue[900];
-      case 5: return Colors.red[900];
-      case 6: return Colors.teal[700];
+      case 1: return Colors.blue[700]!;
+      case 2: return Colors.green[700]!;
+      case 3: return Colors.red[700]!;
+      case 4: return Colors.blue[900]!;
+      case 5: return Colors.red[900]!;
+      case 6: return Colors.teal[700]!;
       case 7: return Colors.black;
-      case 8: return Colors.grey[700];
+      case 8: return Colors.grey[700]!;
       default: return Colors.black;
     }
   }
