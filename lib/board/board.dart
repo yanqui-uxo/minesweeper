@@ -7,9 +7,9 @@ abstract class Square {
 }
 
 abstract class Board {
-  late int width;
-  late int height;
-  late int mines;
+  int get width;
+  int get height;
+  int get mines;
 
   Map<Point, Square> boardMap = {};
 
