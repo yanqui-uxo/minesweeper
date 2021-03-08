@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mine/game/game_config.dart';
-import 'package:mine/variant/mine_game_variant.dart';
+import 'package:mine/variant/game_variant.dart';
 
 class MineGameSelection extends StatefulWidget {
   final List<GameConfig> configs;
-  final List<MineGameVariant> variants;
+  final List<GameVariant> variants;
 
   MineGameSelection(this.configs, this.variants);
 
@@ -13,16 +13,13 @@ class MineGameSelection extends StatefulWidget {
 
 class _MineGameSelectionState extends State<MineGameSelection> {
   late GameConfig currentSelectedConfig;
-  late MineGameVariant currentSelectedVariant;
-
-  late List<StatelessWidget> configTiles;
-  late List<StatelessWidget> variantTiles;
+  late GameVariant currentSelectedVariant;
 
   void setCurrentConfig(GameConfig c) {
     currentSelectedConfig = c;
   }
 
-  void setCurrentVariant(MineGameVariant v) {
+  void setCurrentVariant(GameVariant v) {
     currentSelectedVariant = v;
   }
 
@@ -31,25 +28,28 @@ class _MineGameSelectionState extends State<MineGameSelection> {
 
     currentSelectedConfig = widget.configs[0];
     currentSelectedVariant = widget.variants[0];
+  }
 
-    // yes, i know, repeated code
-    // but i think if i refactored this it would be uglier
-    configTiles = widget.configs.map((c) => RadioListTile<GameConfig>(
+  Widget build(BuildContext context) {
+    // yes i know, repeated code... but fixing that would result in an uglier problem
+    List<Widget> configTiles = widget.configs.map((c) => RadioListTile<GameConfig>(
       title: Text(c.toString()),
       value: c,
       groupValue: currentSelectedConfig,
       onChanged: (c) => setState(() { currentSelectedConfig = c!; })
-    )).toList();
+    )).toList().cast<Widget>();
 
-    variantTiles = widget.variants.map((v) => RadioListTile<MineGameVariant>(
+    List<Widget> variantTiles = widget.variants.map((v) => RadioListTile<GameVariant>(
       title: Text(v.toString()),
       value: v,
       groupValue: currentSelectedVariant,
       onChanged: (v) => setState(() { currentSelectedVariant = v!; })
-    )).toList();
-  }
+    )).toList().cast<Widget>();
 
-  Widget build(BuildContext context) => ListView(
-    children: configTiles + [ListTile()] + variantTiles
-  );
+    print(configTiles.runtimeType);
+
+    return ListView(
+      children: configTiles + [ListTile()] + variantTiles
+    );
+  }
 }

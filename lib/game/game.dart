@@ -7,12 +7,12 @@ enum GameState {
   loss
 }
 
-abstract class MineGame<T extends Board> {
-  abstract T board;
+abstract class Game {
+  Board get board;
   GameState state = GameState.play;
   bool minesPlaced = false;
 
-  void placeMines(Point safePoint);
+  void placeMine(Point p);
 
   List<Point> pickRandomPoints(int n, Point safePoint) {
     List<Point> points = board.boardMap.keys.toList();
@@ -20,6 +20,12 @@ abstract class MineGame<T extends Board> {
     points.shuffle();
 
     return points.take(n).toList();
+  }
+
+  void placeMines(Point safePoint) {
+    for (var p in pickRandomPoints(board.mines, safePoint)) {
+      placeMine(p);
+    }
   }
   
   // returns success
@@ -29,7 +35,7 @@ abstract class MineGame<T extends Board> {
     if (!s.isRevealed) {
       s.isRevealed = true;
 
-      if (!s.isMine && board.getNeighborMines(p) == 0) {
+      if (!s.isMine && board.neighborMines(p) == 0) {
         for (Point np in board.getNeighbors(p)) {
           reveal(np);
         }

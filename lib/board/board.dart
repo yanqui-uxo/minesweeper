@@ -1,9 +1,9 @@
 import 'dart:math';
 
 abstract class Square {
-  bool isRevealed = false;
-  bool isMine = false;
-  bool isFlagged = false;
+  abstract bool isRevealed;
+  bool get isMine;
+  bool get isFlagged;
 }
 
 abstract class Board {
@@ -11,7 +11,7 @@ abstract class Board {
   int get height;
   int get mines;
 
-  Map<Point, Square> boardMap = {};
+  Map<Point, Square> get boardMap;
 
   List<Point> getNeighbors(Point p) {
     List<Point> neighbors = [];
@@ -43,5 +43,5 @@ abstract class Board {
     }
   }
 
-  int getNeighborMines(Point p);
+  int neighborMines(Point p);
 }
