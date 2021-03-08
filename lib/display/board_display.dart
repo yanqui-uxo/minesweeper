@@ -9,6 +9,8 @@ abstract class BoardDisplay<T extends Game> extends StatefulWidget {
   Widget get emptySquare => Text('#');
   Widget get mine => Icon(Icons.star);
 
+  FittedBox fitWrap(Widget w) => FittedBox(child: w, fit: BoxFit.contain);
+
   Widget getDisplay(Point p);
 
   Color defaultBackgroundColor(Point p) {

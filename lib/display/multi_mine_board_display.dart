@@ -41,14 +41,14 @@ class MultiMineBoardDisplay<T extends MultiMineGame> extends BoardDisplay<T> {
       if (sq.isFlagged) {
         return DoubleDisplay(flag, Text(sq.flag.toString()));
       } else {
-        return FittedBox(child: emptySquare, fit: BoxFit.contain);
+        return fitWrap(emptySquare);
       }
     }
 
     if (sq.isMine) {
       return DoubleDisplay(mine, Text(sq.mineNum.toString()));
     } else {
-      return FittedBox(child: numWidget(game.board.neighborMines(p)), fit: BoxFit.contain);
+      return fitWrap(numWidget(game.board.neighborMines(p)));
     }
   }
 
