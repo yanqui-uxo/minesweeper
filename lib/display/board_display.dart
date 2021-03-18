@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:mine/squares_grid.dart';
 import 'package:mine/game/game.dart';
 
 abstract class BoardDisplay<T extends Game> extends StatefulWidget {
@@ -9,8 +10,9 @@ abstract class BoardDisplay<T extends Game> extends StatefulWidget {
   Widget get emptySquare => Text('#');
   Widget get mine => Icon(Icons.star);
 
-  FittedBox fitWrap(Widget w) => FittedBox(child: w, fit: BoxFit.contain);
+  static FittedBox fitWrap(Widget w) => FittedBox(child: w, fit: BoxFit.contain);
 
+  // Should try to fill its parent
   Widget getDisplay(Point p);
 
   Color defaultBackgroundColor(Point p) {
@@ -52,32 +54,20 @@ abstract class BoardDisplay<T extends Game> extends StatefulWidget {
 
 abstract class BoardDisplayState<T extends BoardDisplay> extends State<T> {
   Widget build(BuildContext context) {
-    Widget _generateRow(int y) {
-      var children = List.generate(
-        widget.game.board.width,
-        (int x) => Expanded(
-          child: GestureDetector(
-            child: Container(
-              child: widget.getDisplay(Point(x, y)),
-              color: widget.getBackgroundColor(Point(x, y))
-            ),
+    return SquaresGrid(
+      width: widget.game.board.width,
+      height: widget.game.board.height,
+      generateWidget: (p) =>
+        GestureDetector(
+          child: Container(
+            child: widget.getDisplay(p),
+            color: widget.getBackgroundColor(p)
+          ),
 
-            onTap: () => (setState(() => widget.game.clickHandle(Point(x, y)))),
-            onLongPress: () => setState(() => widget.game.flag(Point(x, y))),
-            behavior: HitTestBehavior.translucent
-          )
+          onTap: () => (setState(() => widget.game.clickHandle(p))),
+          onLongPress: () => setState(() => widget.game.flag(p)),
+          behavior: HitTestBehavior.translucent
         )
-      );
-      return Row(children: children, crossAxisAlignment: CrossAxisAlignment.stretch);
-    }
-
-    var colChildren = List.generate(widget.game.board.height, (int y) => Expanded(child: _generateRow(y)));
-
-    return AspectRatio(
-      child: Column(
-        children: colChildren
-      ),
-      aspectRatio: widget.game.board.width / widget.game.board.height,
     );
   }
 }

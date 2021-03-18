@@ -1,10 +1,10 @@
-class GameConfig {
+class Difficulty {
   String title;
   int width;
   int height;
   int mines;
 
-  GameConfig(this.title, this.width, this.height, this.mines);
+  Difficulty({required this.title, required this.width, required this.height, required this.mines});
 
   @override
   String toString() {
